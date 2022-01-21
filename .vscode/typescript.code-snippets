@@ -1,0 +1,27 @@
+{
+	"React Component": {
+		"prefix": "react-component",
+		"description": "Creates a react function component without props",
+		"body": [
+			"import React from \"react\"",
+			"",
+			"export interface ${1:name}Props {",
+			"\t${0}",
+			"}",
+			"",
+			"const ${1:name}Component = (props: ${1:name}Props) => {",
+			"}",
+			"",
+			"export const ${1:name} = (React.memo(${1:name}Component) as unknown) as typeof ${1:name}Component",
+		],
+		"scope": "typescriptreact"
+	},
+	"Export everything": {
+		"prefix": "export-everything",
+		"description": "Export * from a specific file",
+		"body": [
+			"export * from \"./${1:name}\""
+		],
+		"scope": "typescript"
+	}
+}
