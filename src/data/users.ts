@@ -1,6 +1,6 @@
 import { User } from "api/jsonPlaceholder"
 import { useJSONPlaceholderAPI } from "contexts/jsonPlaceholderAPI"
-import { useQuery, useQueryClient } from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 
 const KEY_USERS = ["users"]
 const KEY_USER = (id: User["id"]) => ["users", id]
@@ -37,4 +37,17 @@ export const useUser = (userId?: User["id"]) => {
 			enabled: Boolean(userId)
 		}
 	)
+}
+
+export const useCreateUser = () => {
+	const { api } = useJSONPlaceholderAPI()
+	const queryClient = useQueryClient()
+	return useMutation(api.createUser, {
+		onSuccess: ({ data: user }) => {
+			queryClient.setQueryData(KEY_USER(user.id), user)
+			queryClient.setQueryData<User[]>(KEY_USERS, (users) => {
+				return (users ?? []).concat(user)
+			})
+		}
+	})
 }

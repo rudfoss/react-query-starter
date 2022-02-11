@@ -2,6 +2,7 @@ import { Post } from "./Post"
 import { User } from "./User"
 import { Comment } from "./Comment"
 import { ResponseError } from "../ResponseError"
+import { CreateUserDto } from "."
 
 export interface ClientResponse<TDataType> {
 	response: Response
@@ -15,8 +16,10 @@ export class JSONPlaceholderClient {
 	): Promise<ClientResponse<TDataType>> {
 		const url = `https://jsonplaceholder.typicode.com/${path}`
 		const response = await fetch(url, {
+			...options,
 			headers: {
-				"Content-Type": "application/json"
+				"Content-Type": "application/json; charset=UTF-8",
+				...(options.headers ?? {})
 			}
 		})
 
@@ -44,5 +47,20 @@ export class JSONPlaceholderClient {
 	}
 	public async fetchCommentsByPost(postId: number) {
 		return this.doFetch<Comment[]>(`comments?postId=${postId}`)
+	}
+
+	public createUser = async (createUser: CreateUserDto): Promise<ClientResponse<User>> => {
+		// POSTs to JSONPlaceholder don't actually do anything so we fake it
+		const response = await this.doFetch<User>("users", {
+			method: "POST",
+			body: JSON.stringify(createUser)
+		})
+		return {
+			...response,
+			data: {
+				...createUser,
+				id: (Math.random() * 10000) | 0
+			}
+		}
 	}
 }

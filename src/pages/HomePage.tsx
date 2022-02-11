@@ -16,6 +16,9 @@ const HomePageComponent = () => {
 					</li>
 				))}
 			</ul>
+			<p>
+				<Link to="user/create">Create user</Link>
+			</p>
 			{!isLoading && isFetching && <p>Reloading users...</p>}
 		</div>
 	)

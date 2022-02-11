@@ -3,10 +3,10 @@ export interface User {
 	name: string
 	username: string
 	email: string
-	address: Address
-	phone: string
-	website: string
-	company: Company
+	address?: Address
+	phone?: string
+	website?: string
+	company?: Company
 }
 
 export interface Company {
@@ -26,4 +26,10 @@ export interface Address {
 export interface Geo {
 	lat: string
 	lng: string
+}
+
+export interface CreateUserDto {
+	name: string
+	username: string
+	email: string
 }
